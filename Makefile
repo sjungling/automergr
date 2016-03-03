@@ -9,5 +9,5 @@ all:
 ifdef NON_DOCUMENTATION
 	@echo $(error Non-documentation code in this branch: $(NON_DOCUMENTATION))
 else ifdef DOCUMENTATION
-	@echo "Swweeeet documentation! " $(DOCUMENTATION)
+	@echo "Swweeeet documentation only! " $(DOCUMENTATION)
 endif
