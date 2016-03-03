@@ -1,10 +1,13 @@
-PATTERN=%.md
-FILES=$(shell git diff --name-only master..HEAD)
-NON_DOCUMENTATION=$(filter-out $(PATTERN),$(FILES))
+SHELL = /bin/sh
+PATTERN := %.md
+CURRENT_BRANCH := HEAD
+BASE_BRANCH := master
+FILES := $(shell git diff --name-only $(BASE_BRANCH)..$(CURRENT_BRANCH))
+DOCUMENTATION := $(strip $(filter $(PATTERN),$(FILES)))
+NON_DOCUMENTATION := $(strip $(filter-out $(PATTERN),$(FILES)))
 all:
-	@echo "$(strip $(NON_DOCUMENTATION))"
-	# ifeq ($(strip $(NON_DOCUMENTATION)),)
-	# 	@echo "Found stuff"
-	# else
-	# 	@echo "Didn't Found stuff"
-	# endif
+ifdef NON_DOCUMENTATION
+	@echo $(error Non-documentation code in this branch: $(NON_DOCUMENTATION))
+else ifdef DOCUMENTATION
+	@echo "Swweeeet documentation! " $(DOCUMENTATION)
+endif
